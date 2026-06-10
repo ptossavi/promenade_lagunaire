@@ -1,0 +1,32 @@
+/vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
+        # "cyrildewit/eloquent-viewable": "^8.0",
+        # "fideloper/proxy": "^4.4",
+        # "realrashid/sweet-alert": "^6.0",
+                # "mews/captcha": "^3.4",
+
+# Laravel 5 & Lumen specific
+public/storage
+public/hot
+
+# Laravel 5 & Lumen specific with changed public path
+public_html/storage
+public_html/hot
+
+storage/*.key
+.env
+Homestead.yaml
+Homestead.json
+/.vagrant
+.phpunit.result.cache
+
+# Ignorer dossiers temporaires sur MacOS
+.DS_Store
+**/.DS_Store/**
+**/.DS_Store
