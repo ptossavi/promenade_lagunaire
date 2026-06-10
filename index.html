@@ -13,9 +13,6 @@
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/MarkerCluster.css">
         <link rel="stylesheet" href="css/MarkerCluster.Default.css">
-        <link rel="stylesheet" href="css/leaflet-search.css">
-        <link rel="stylesheet" href="css/filter.css">
-<link rel="stylesheet" href="css/nouislider.min.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
@@ -48,10 +45,6 @@
         <script src="js/proj4.js"></script>
         <script src="js/proj4leaflet.js"></script>
         <script src="js/leaflet.markercluster.js"></script>
-        <script src="js/leaflet-search.js"></script>
-        <script src="js/tailDT.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/wNumb.js"></script>
         <script src="data/PortoNovo_et_environs_1.js"></script>
         <script src="data/PortoNovo_et_environs_cheflieu_2.js"></script>
         <script src="data/PortoNovo_3.js"></script>
@@ -82,7 +75,7 @@
             continuousWorld: false,
             worldCopyJump: false, 
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[6.303719239596436,2.2626365707681177],[6.6869858812563345,2.90317786993514]]);
+        })
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -163,6 +156,9 @@
         document.getElementsByClassName('leaflet-control-measure-toggle')[0].className += ' fas fa-ruler';
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
             map.setMaxBounds(map.getBounds());
             map.setMinZoom(map.getZoom());
         }
@@ -199,112 +195,49 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">adm2_name</th>\
-                        <td>' + (feature.properties['adm2_name'] !== null ? autolinker.link(String(feature.properties['adm2_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm2_name'] !== null ? autolinker.link(String(feature.properties['adm2_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm2_name1</th>\
-                        <td>' + (feature.properties['adm2_name1'] !== null ? autolinker.link(String(feature.properties['adm2_name1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm2_pcode'] !== null ? autolinker.link(String(feature.properties['adm2_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm2_name2</th>\
-                        <td>' + (feature.properties['adm2_name2'] !== null ? autolinker.link(String(feature.properties['adm2_name2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm1_name'] !== null ? autolinker.link(String(feature.properties['adm1_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm2_name3</th>\
-                        <td>' + (feature.properties['adm2_name3'] !== null ? autolinker.link(String(feature.properties['adm2_name3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm1_pcode'] !== null ? autolinker.link(String(feature.properties['adm1_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm2_pcode</th>\
-                        <td>' + (feature.properties['adm2_pcode'] !== null ? autolinker.link(String(feature.properties['adm2_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm0_name'] !== null ? autolinker.link(String(feature.properties['adm0_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm1_name</th>\
-                        <td>' + (feature.properties['adm1_name'] !== null ? autolinker.link(String(feature.properties['adm1_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm0_pcode'] !== null ? autolinker.link(String(feature.properties['adm0_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm1_name1</th>\
-                        <td>' + (feature.properties['adm1_name1'] !== null ? autolinker.link(String(feature.properties['adm1_name1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['valid_on'] !== null ? autolinker.link(String(feature.properties['valid_on']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm1_name2</th>\
-                        <td>' + (feature.properties['adm1_name2'] !== null ? autolinker.link(String(feature.properties['adm1_name2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['valid_to'] !== null ? autolinker.link(String(feature.properties['valid_to']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm1_name3</th>\
-                        <td>' + (feature.properties['adm1_name3'] !== null ? autolinker.link(String(feature.properties['adm1_name3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['area_sqkm'] !== null ? autolinker.link(String(feature.properties['area_sqkm']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm1_pcode</th>\
-                        <td>' + (feature.properties['adm1_pcode'] !== null ? autolinker.link(String(feature.properties['adm1_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['version'] !== null ? autolinker.link(String(feature.properties['version']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm0_name</th>\
-                        <td>' + (feature.properties['adm0_name'] !== null ? autolinker.link(String(feature.properties['adm0_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['lang'] !== null ? autolinker.link(String(feature.properties['lang']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm0_name1</th>\
-                        <td>' + (feature.properties['adm0_name1'] !== null ? autolinker.link(String(feature.properties['adm0_name1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm0_en'] !== null ? autolinker.link(String(feature.properties['adm0_en']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm0_name2</th>\
-                        <td>' + (feature.properties['adm0_name2'] !== null ? autolinker.link(String(feature.properties['adm0_name2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm2_ref_n'] !== null ? autolinker.link(String(feature.properties['adm2_ref_n']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm0_name3</th>\
-                        <td>' + (feature.properties['adm0_name3'] !== null ? autolinker.link(String(feature.properties['adm0_name3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['center_lat'] !== null ? autolinker.link(String(feature.properties['center_lat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm0_pcode</th>\
-                        <td>' + (feature.properties['adm0_pcode'] !== null ? autolinker.link(String(feature.properties['adm0_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">valid_on</th>\
-                        <td>' + (feature.properties['valid_on'] !== null ? autolinker.link(String(feature.properties['valid_on']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">valid_to</th>\
-                        <td>' + (feature.properties['valid_to'] !== null ? autolinker.link(String(feature.properties['valid_to']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">area_sqkm</th>\
-                        <td>' + (feature.properties['area_sqkm'] !== null ? autolinker.link(String(feature.properties['area_sqkm']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">version</th>\
-                        <td>' + (feature.properties['version'] !== null ? autolinker.link(String(feature.properties['version']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">lang</th>\
-                        <td>' + (feature.properties['lang'] !== null ? autolinker.link(String(feature.properties['lang']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">lang1</th>\
-                        <td>' + (feature.properties['lang1'] !== null ? autolinker.link(String(feature.properties['lang1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">lang2</th>\
-                        <td>' + (feature.properties['lang2'] !== null ? autolinker.link(String(feature.properties['lang2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">lang3</th>\
-                        <td>' + (feature.properties['lang3'] !== null ? autolinker.link(String(feature.properties['lang3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm0_en</th>\
-                        <td>' + (feature.properties['adm0_en'] !== null ? autolinker.link(String(feature.properties['adm0_en']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm2_ref_n</th>\
-                        <td>' + (feature.properties['adm2_ref_n'] !== null ? autolinker.link(String(feature.properties['adm2_ref_n']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">center_lat</th>\
-                        <td>' + (feature.properties['center_lat'] !== null ? autolinker.link(String(feature.properties['center_lat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">center_lon</th>\
-                        <td>' + (feature.properties['center_lon'] !== null ? autolinker.link(String(feature.properties['center_lon']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['center_lon'] !== null ? autolinker.link(String(feature.properties['center_lon']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -363,144 +296,46 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">adm_p_lvl</th>\
-                        <td>' + (feature.properties['adm_p_lvl'] !== null ? autolinker.link(String(feature.properties['adm_p_lvl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm_p_lvl'] !== null ? autolinker.link(String(feature.properties['adm_p_lvl']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">name</th>\
-                        <td>' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">name_1</th>\
-                        <td>' + (feature.properties['name_1'] !== null ? autolinker.link(String(feature.properties['name_1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['x_coord'] !== null ? autolinker.link(String(feature.properties['x_coord']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">name_2</th>\
-                        <td>' + (feature.properties['name_2'] !== null ? autolinker.link(String(feature.properties['name_2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['y_coord'] !== null ? autolinker.link(String(feature.properties['y_coord']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">name_3</th>\
-                        <td>' + (feature.properties['name_3'] !== null ? autolinker.link(String(feature.properties['name_3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm3_name'] !== null ? autolinker.link(String(feature.properties['adm3_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">loc_pcode</th>\
-                        <td>' + (feature.properties['loc_pcode'] !== null ? autolinker.link(String(feature.properties['loc_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm3_pcode'] !== null ? autolinker.link(String(feature.properties['adm3_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">x_coord</th>\
-                        <td>' + (feature.properties['x_coord'] !== null ? autolinker.link(String(feature.properties['x_coord']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm1_name'] !== null ? autolinker.link(String(feature.properties['adm1_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">y_coord</th>\
-                        <td>' + (feature.properties['y_coord'] !== null ? autolinker.link(String(feature.properties['y_coord']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm1_pcode'] !== null ? autolinker.link(String(feature.properties['adm1_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm3_name</th>\
-                        <td>' + (feature.properties['adm3_name'] !== null ? autolinker.link(String(feature.properties['adm3_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm0_name'] !== null ? autolinker.link(String(feature.properties['adm0_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm3_name1</th>\
-                        <td>' + (feature.properties['adm3_name1'] !== null ? autolinker.link(String(feature.properties['adm3_name1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm0_pcode'] !== null ? autolinker.link(String(feature.properties['adm0_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm3_name2</th>\
-                        <td>' + (feature.properties['adm3_name2'] !== null ? autolinker.link(String(feature.properties['adm3_name2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['valid_on'] !== null ? autolinker.link(String(feature.properties['valid_on']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm3_name3</th>\
-                        <td>' + (feature.properties['adm3_name3'] !== null ? autolinker.link(String(feature.properties['adm3_name3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['valid_to'] !== null ? autolinker.link(String(feature.properties['valid_to']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm3_pcode</th>\
-                        <td>' + (feature.properties['adm3_pcode'] !== null ? autolinker.link(String(feature.properties['adm3_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['version'] !== null ? autolinker.link(String(feature.properties['version']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm2_name</th>\
-                        <td>' + (feature.properties['adm2_name'] !== null ? autolinker.link(String(feature.properties['adm2_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm2_name1</th>\
-                        <td>' + (feature.properties['adm2_name1'] !== null ? autolinker.link(String(feature.properties['adm2_name1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm2_name2</th>\
-                        <td>' + (feature.properties['adm2_name2'] !== null ? autolinker.link(String(feature.properties['adm2_name2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm2_name3</th>\
-                        <td>' + (feature.properties['adm2_name3'] !== null ? autolinker.link(String(feature.properties['adm2_name3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm2_pcode</th>\
-                        <td>' + (feature.properties['adm2_pcode'] !== null ? autolinker.link(String(feature.properties['adm2_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm1_name</th>\
-                        <td>' + (feature.properties['adm1_name'] !== null ? autolinker.link(String(feature.properties['adm1_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm1_name1</th>\
-                        <td>' + (feature.properties['adm1_name1'] !== null ? autolinker.link(String(feature.properties['adm1_name1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm1_name2</th>\
-                        <td>' + (feature.properties['adm1_name2'] !== null ? autolinker.link(String(feature.properties['adm1_name2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm1_name3</th>\
-                        <td>' + (feature.properties['adm1_name3'] !== null ? autolinker.link(String(feature.properties['adm1_name3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm1_pcode</th>\
-                        <td>' + (feature.properties['adm1_pcode'] !== null ? autolinker.link(String(feature.properties['adm1_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm0_name</th>\
-                        <td>' + (feature.properties['adm0_name'] !== null ? autolinker.link(String(feature.properties['adm0_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm0_name1</th>\
-                        <td>' + (feature.properties['adm0_name1'] !== null ? autolinker.link(String(feature.properties['adm0_name1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm0_name2</th>\
-                        <td>' + (feature.properties['adm0_name2'] !== null ? autolinker.link(String(feature.properties['adm0_name2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm0_name3</th>\
-                        <td>' + (feature.properties['adm0_name3'] !== null ? autolinker.link(String(feature.properties['adm0_name3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm0_pcode</th>\
-                        <td>' + (feature.properties['adm0_pcode'] !== null ? autolinker.link(String(feature.properties['adm0_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">valid_on</th>\
-                        <td>' + (feature.properties['valid_on'] !== null ? autolinker.link(String(feature.properties['valid_on']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">valid_to</th>\
-                        <td>' + (feature.properties['valid_to'] !== null ? autolinker.link(String(feature.properties['valid_to']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">version</th>\
-                        <td>' + (feature.properties['version'] !== null ? autolinker.link(String(feature.properties['version']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">name_lng</th>\
-                        <td>' + (feature.properties['name_lng'] !== null ? autolinker.link(String(feature.properties['name_lng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">name_lng1</th>\
-                        <td>' + (feature.properties['name_lng1'] !== null ? autolinker.link(String(feature.properties['name_lng1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">name_lng2</th>\
-                        <td>' + (feature.properties['name_lng2'] !== null ? autolinker.link(String(feature.properties['name_lng2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">name_lng3</th>\
-                        <td>' + (feature.properties['name_lng3'] !== null ? autolinker.link(String(feature.properties['name_lng3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['name_lng'] !== null ? autolinker.link(String(feature.properties['name_lng']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -570,112 +405,49 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">adm2_name</th>\
-                        <td>' + (feature.properties['adm2_name'] !== null ? autolinker.link(String(feature.properties['adm2_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm2_name'] !== null ? autolinker.link(String(feature.properties['adm2_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm2_name1</th>\
-                        <td>' + (feature.properties['adm2_name1'] !== null ? autolinker.link(String(feature.properties['adm2_name1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm2_pcode'] !== null ? autolinker.link(String(feature.properties['adm2_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm2_name2</th>\
-                        <td>' + (feature.properties['adm2_name2'] !== null ? autolinker.link(String(feature.properties['adm2_name2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm1_name'] !== null ? autolinker.link(String(feature.properties['adm1_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm2_name3</th>\
-                        <td>' + (feature.properties['adm2_name3'] !== null ? autolinker.link(String(feature.properties['adm2_name3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm1_pcode'] !== null ? autolinker.link(String(feature.properties['adm1_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm2_pcode</th>\
-                        <td>' + (feature.properties['adm2_pcode'] !== null ? autolinker.link(String(feature.properties['adm2_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm0_name'] !== null ? autolinker.link(String(feature.properties['adm0_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm1_name</th>\
-                        <td>' + (feature.properties['adm1_name'] !== null ? autolinker.link(String(feature.properties['adm1_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm0_pcode'] !== null ? autolinker.link(String(feature.properties['adm0_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm1_name1</th>\
-                        <td>' + (feature.properties['adm1_name1'] !== null ? autolinker.link(String(feature.properties['adm1_name1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['valid_on'] !== null ? autolinker.link(String(feature.properties['valid_on']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm1_name2</th>\
-                        <td>' + (feature.properties['adm1_name2'] !== null ? autolinker.link(String(feature.properties['adm1_name2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['valid_to'] !== null ? autolinker.link(String(feature.properties['valid_to']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm1_name3</th>\
-                        <td>' + (feature.properties['adm1_name3'] !== null ? autolinker.link(String(feature.properties['adm1_name3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['area_sqkm'] !== null ? autolinker.link(String(feature.properties['area_sqkm']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm1_pcode</th>\
-                        <td>' + (feature.properties['adm1_pcode'] !== null ? autolinker.link(String(feature.properties['adm1_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['version'] !== null ? autolinker.link(String(feature.properties['version']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm0_name</th>\
-                        <td>' + (feature.properties['adm0_name'] !== null ? autolinker.link(String(feature.properties['adm0_name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['lang'] !== null ? autolinker.link(String(feature.properties['lang']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm0_name1</th>\
-                        <td>' + (feature.properties['adm0_name1'] !== null ? autolinker.link(String(feature.properties['adm0_name1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm0_en'] !== null ? autolinker.link(String(feature.properties['adm0_en']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm0_name2</th>\
-                        <td>' + (feature.properties['adm0_name2'] !== null ? autolinker.link(String(feature.properties['adm0_name2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['adm2_ref_n'] !== null ? autolinker.link(String(feature.properties['adm2_ref_n']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm0_name3</th>\
-                        <td>' + (feature.properties['adm0_name3'] !== null ? autolinker.link(String(feature.properties['adm0_name3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['center_lat'] !== null ? autolinker.link(String(feature.properties['center_lat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">adm0_pcode</th>\
-                        <td>' + (feature.properties['adm0_pcode'] !== null ? autolinker.link(String(feature.properties['adm0_pcode']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">valid_on</th>\
-                        <td>' + (feature.properties['valid_on'] !== null ? autolinker.link(String(feature.properties['valid_on']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">valid_to</th>\
-                        <td>' + (feature.properties['valid_to'] !== null ? autolinker.link(String(feature.properties['valid_to']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">area_sqkm</th>\
-                        <td>' + (feature.properties['area_sqkm'] !== null ? autolinker.link(String(feature.properties['area_sqkm']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">version</th>\
-                        <td>' + (feature.properties['version'] !== null ? autolinker.link(String(feature.properties['version']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">lang</th>\
-                        <td>' + (feature.properties['lang'] !== null ? autolinker.link(String(feature.properties['lang']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">lang1</th>\
-                        <td>' + (feature.properties['lang1'] !== null ? autolinker.link(String(feature.properties['lang1']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">lang2</th>\
-                        <td>' + (feature.properties['lang2'] !== null ? autolinker.link(String(feature.properties['lang2']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">lang3</th>\
-                        <td>' + (feature.properties['lang3'] !== null ? autolinker.link(String(feature.properties['lang3']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm0_en</th>\
-                        <td>' + (feature.properties['adm0_en'] !== null ? autolinker.link(String(feature.properties['adm0_en']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">adm2_ref_n</th>\
-                        <td>' + (feature.properties['adm2_ref_n'] !== null ? autolinker.link(String(feature.properties['adm2_ref_n']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">center_lat</th>\
-                        <td>' + (feature.properties['center_lat'] !== null ? autolinker.link(String(feature.properties['center_lat']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">center_lon</th>\
-                        <td>' + (feature.properties['center_lon'] !== null ? autolinker.link(String(feature.properties['center_lon']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['center_lon'] !== null ? autolinker.link(String(feature.properties['center_lon']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -734,16 +506,13 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">id</th>\
-                        <td>' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Nom</th>\
-                        <td>' + (feature.properties['Nom'] !== null ? autolinker.link(String(feature.properties['Nom']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['Nom'] !== null ? autolinker.link(String(feature.properties['Nom']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Desciption</th>\
-                        <td>' + (feature.properties['Desciption'] !== null ? autolinker.link(String(feature.properties['Desciption']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['Desciption'] !== null ? autolinker.link(String(feature.properties['Desciption']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -814,8 +583,10 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">id</th>\
-                        <td>' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['nom'] !== null ? autolinker.link(String(feature.properties['nom']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -942,189 +713,6 @@
               addLabel(layer, i);
               i++;
         });
-        map.addControl(new L.Control.Search({
-            layer: layer_promenade_lagunaire_4,
-            initial: false,
-            hideMarkerOnCollapse: true,
-            propertyName: 'Nom'}));
-        if (typeof url === 'undefined') {
-            document.getElementsByClassName('search-button')[0].className += ' fa fa-binoculars';
-        } else {
-            document.getElementsByClassName('search-button')[1].className += ' fa fa-binoculars';
-        }
-        var mapDiv = document.getElementById('map');
-        var row = document.createElement('div');
-        row.className="row";
-        row.id="all";
-        row.style.height = "100%";
-        var col1 = document.createElement('div');
-        col1.className="col9";
-        col1.id = "mapWindow";
-        col1.style.height = "99%";
-        col1.style.width = "80%";
-        col1.style.display = "inline-block";
-        var col2 = document.createElement('div');
-        col2.className="col3";
-        col2.id = "menu";
-        col2.style.display = "inline-block";
-        mapDiv.parentNode.insertBefore(row, mapDiv);
-        document.getElementById("all").appendChild(col1);
-        document.getElementById("all").appendChild(col2);
-        col1.appendChild(mapDiv)
-        var Filters = {"Desciption": "str"};
-        function filterFunc() {
-          map.eachLayer(function(lyr){
-          if ("options" in lyr && "dataVar" in lyr["options"]){
-            features = this[lyr["options"]["dataVar"]].features.slice(0);
-            try{
-              for (key in Filters){
-                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
-                if (Filters[key] == "str" || Filters[key] == "bool"){
-                  var selection = [];
-                  var options = document.getElementById("sel_" + keyS).options
-                  for (var i=0; i < options.length; i++) {
-                    if (options[i].selected) selection.push(options[i].value);
-                  }
-                    try{
-                      if (key in features[0].properties){
-                        for (i = features.length - 1;
-                          i >= 0; --i){
-                          if (selection.indexOf(
-                          features[i].properties[key])<0
-                          && selection.length>0) {
-                          features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                  }
-                }
-                if (Filters[key] == "int"){
-                  sliderVals =  document.getElementById(
-                    "div_" + keyS).noUiSlider.get();
-                  try{
-                    if (key in features[0].properties){
-                    for (i = features.length - 1; i >= 0; --i){
-                      if (parseInt(features[i].properties[key])
-                          < sliderVals[0]
-                          || parseInt(features[i].properties[key])
-                          > sliderVals[1]){
-                            features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                    }
-                  }
-                if (Filters[key] == "real"){
-                  sliderVals =  document.getElementById(
-                    "div_" + keyS).noUiSlider.get();
-                  try{
-                    if (key in features[0].properties){
-                    for (i = features.length - 1; i >= 0; --i){
-                      if (features[i].properties[key]
-                          < sliderVals[0]
-                          || features[i].properties[key]
-                          > sliderVals[1]){
-                            features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                    }
-                  }
-                if (Filters[key] == "date"
-                  || Filters[key] == "datetime"
-                  || Filters[key] == "time"){
-                  try{
-                    if (key in features[0].properties){
-                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
-                      startdate = document.getElementById("dat_" +
-                        HTMLkey + "_date1").value.replace(" ", "T");
-                      enddate = document.getElementById("dat_" +
-                        HTMLkey + "_date2").value.replace(" ", "T");
-                      for (i = features.length - 1; i >= 0; --i){
-                        if (features[i].properties[key] < startdate
-                          || features[i].properties[key] > enddate){
-                          features.splice(i,1);
-                        }
-                      }
-                    }
-                  } catch(err){
-                  }
-                }
-              }
-            } catch(err){
-            }
-          this[lyr["options"]["layerName"]].clearLayers();
-          this[lyr["options"]["layerName"]].addData(features);
-        var i = 0;
-        layer_PortoNovo_et_environs_1.eachLayer(function(layer) {
-            var context = {
-                feature: layer.feature,
-                variables: {}
-            };
-            layer.bindTooltip((layer.feature.properties['adm2_name'] !== null?String('<div style="color: #323232; font-size: 12pt; font-weight: bold; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['adm2_name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_PortoNovo_et_environs_1'});
-            labels.push(layer);
-            totalMarkers += 1;
-              layer.added = true;
-              addLabel(layer, i);
-              i++;
-        });
-        var i = 0;
-        layer_PortoNovo_3.eachLayer(function(layer) {
-            var context = {
-                feature: layer.feature,
-                variables: {}
-            };
-            layer.bindTooltip((layer.feature.properties['adm2_name'] !== null?String('<div style="color: #323232; font-size: 12pt; font-weight: bold; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['adm2_name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_PortoNovo_3'});
-            labels.push(layer);
-            totalMarkers += 1;
-              layer.added = true;
-              addLabel(layer, i);
-              i++;
-        });
-          }
-          })
-        }
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_Desciption = document.createElement('div');
-            div_Desciption.id = "div_Desciption";
-            div_Desciption.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Desciption);
-            sel_Desciption = document.createElement('select');
-            sel_Desciption.multiple = true;
-            sel_Desciption.size = 9;
-            sel_Desciption.id = "sel_Desciption";
-            var Desciption_options_str = "<option value='' unselected></option>";
-            sel_Desciption.onchange = function(){filterFunc()};
-            Desciption_options_str  += '<option value="Fin de la randonnée">Fin de la randonnée</option>';
-            Desciption_options_str  += '<option value="Histoire des sinistrés d&apos;un naufrage sur le lac Nokoué">Histoire des sinistrés d&apos;un naufrage sur le lac Nokoué</option>';
-            Desciption_options_str  += '<option value="Point d&apos;observation des oiseaux migrateurs">Point d&apos;observation des oiseaux migrateurs</option>';
-            Desciption_options_str  += '<option value="Point de départ au niveau du pont">Point de départ au niveau du pont</option>';
-            Desciption_options_str  += '<option value="Point de regrougement des pêcheurs">Point de regrougement des pêcheurs</option>';
-            Desciption_options_str  += '<option value="Représentation de Tê-Agbanlin">Représentation de Tê-Agbanlin</option>';
-            Desciption_options_str  += '<option value="Représentation de la Divinité Tohossou">Représentation de la Divinité Tohossou</option>';
-            Desciption_options_str  += '<option value="Représentation de la sirène des eaux">Représentation de la sirène des eaux</option>';
-            Desciption_options_str  += '<option value="Représentation des lamantins d&apos;Afrique">Représentation des lamantins d&apos;Afrique</option>';
-            sel_Desciption.innerHTML = Desciption_options_str;
-            div_Desciption.appendChild(sel_Desciption);
-            var lab_Desciption = document.createElement('div');
-            lab_Desciption.innerHTML = 'Desciption';
-            lab_Desciption.className = 'filterlabel';
-            div_Desciption.appendChild(lab_Desciption);
-            var reset_Desciption = document.createElement('div');
-            reset_Desciption.innerHTML = 'clear filter';
-            reset_Desciption.className = 'filterlabel';
-            reset_Desciption.onclick = function() {
-                var options = document.getElementById("sel_Desciption").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_Desciption.appendChild(reset_Desciption);
         resetLabels([layer_PortoNovo_et_environs_1,layer_PortoNovo_et_environs_cheflieu_2,layer_PortoNovo_3]);
         map.on("zoomend", function(){
             resetLabels([layer_PortoNovo_et_environs_1,layer_PortoNovo_et_environs_cheflieu_2,layer_PortoNovo_3]);
